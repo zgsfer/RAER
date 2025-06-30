@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CAAE Project Home</title>
+  <style>
+    body {
+      max-width: 900px;
+      margin: 40px auto;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 0 20px;
+      color: #333;
+    }
+    #content {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>CAAE: Context-Aware Academic Emotions</h1>
+  <div id="content">Loading markdown...</div>
+
+  <!-- 引入 marked.js 库 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // 加载并渲染 markdown 文件
+    fetch('README.md')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Cannot load markdown file");
+        }
+        return response.text();
+      })
+      .then(mdText => {
+        document.getElementById('content').innerHTML = marked.parse(mdText);
+      })
+      .catch(err => {
+        document.getElementById('content').innerText = "Failed to load markdown: " + err;
+      });
+  </script>
+</body>
+</html>
