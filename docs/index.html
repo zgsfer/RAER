@@ -1,512 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CAAE: Context-Aware Academic Emotions</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据集介绍</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #ffffff;
-      font-size: 16px;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+            min-height: 100vh;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    .header {
-      text-align: center;
-      margin-bottom: 60px;
-      padding: 40px 0;
-    }
+        .header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
 
-    .main-title {
-      font-size: 4rem;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-    .subtitle {
-      font-size: 1.5rem;
-      color: #666;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-    .description {
-      font-size: 1.1rem;
-      color: #888;
-      max-width: 600px;
-      margin: 0 auto;
-      font-style: italic;
-    }
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            margin-right: 20px;
+        }
 
-    .content {
-      background: #fff;
-      border-radius: 8px;
-      padding: 0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      border: 1px solid #e1e5e9;
-    }
+        .file-input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
 
-    .loading {
-      text-align: center;
-      padding: 60px 40px;
-      color: #666;
-    }
+        .file-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+        }
 
-    .loading-spinner {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid #333;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
+        .file-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+        .file-label:active {
+            transform: translateY(0);
+        }
 
-    .error {
-      background: #fff5f5;
-      border: 1px solid #fed7d7;
-      color: #c53030;
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px 0;
-    }
+        .url-input {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            width: 300px;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+        }
 
-    /* Markdown content styling */
-    .content h1 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: #1a1a1a;
-      margin: 40px 0 20px 0;
-      padding: 0 40px;
-    }
+        .url-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
 
-    .content h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #1a1a1a;
-      margin: 40px 0 20px 0;
-      padding: 0 40px;
-      border-bottom: 2px solid #f0f0f0;
-      padding-bottom: 10px;
-    }
+        .load-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
 
-    .content h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #333;
-      margin: 30px 0 15px 0;
-      padding: 0 40px;
-    }
+        .load-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
 
-    .content h4 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #444;
-      margin: 25px 0 10px 0;
-      padding: 0 40px;
-    }
+        .content {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+            animation: fadeIn 0.6s ease-out;
+        }
 
-    .content p {
-      margin: 15px 0;
-      color: #555;
-      padding: 0 40px;
-      font-size: 1rem;
-      line-height: 1.7;
-    }
+        .content h1, .content h2, .content h3 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
 
-    .content ul, .content ol {
-      margin: 15px 0;
-      padding-left: 60px;
-      padding-right: 40px;
-    }
+        .content h1 {
+            font-size: 2.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
 
-    .content li {
-      margin: 8px 0;
-      color: #555;
-      line-height: 1.6;
-    }
+        .content h2 {
+            font-size: 2em;
+            color: #667eea;
+        }
 
-    .content li strong {
-      color: #333;
-      font-weight: 600;
-    }
+        .content h3 {
+            font-size: 1.5em;
+            color: #764ba2;
+        }
 
-    .content blockquote {
-      margin: 20px 40px;
-      padding: 20px;
-      background: #f8f9fa;
-      border-left: 4px solid #007bff;
-      font-style: italic;
-      color: #666;
-    }
+        .content p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
 
-    .content code {
-      background: #f1f3f4;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-      font-size: 0.9em;
-      color: #d63384;
-    }
+        .content code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            color: #e83e8c;
+        }
 
-    .content pre {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 20px 40px;
-      border: 1px solid #e9ecef;
-    }
+        .content pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
 
-    .content pre code {
-      background: none;
-      padding: 0;
-      color: #333;
-      font-size: 0.9rem;
-    }
+        .content blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-    .content a {
-      color: #007bff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
+        .content ul, .content ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
 
-    .content a:hover {
-      color: #0056b3;
-      text-decoration: underline;
-    }
+        .content li {
+            margin-bottom: 8px;
+        }
 
-    .content table {
-      width: calc(100% - 80px);
-      margin: 20px 40px;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .content th,
-    .content td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #e9ecef;
-    }
+        .content th, .content td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
 
-    .content th {
-      background: #f8f9fa;
-      font-weight: 600;
-      color: #333;
-    }
+        .content th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
 
-    .content tr:hover {
-      background: #f8f9fa;
-    }
+        .placeholder {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 15px;
+            border: 2px dashed #ccc;
+        }
 
-    .content img {
-      max-width: calc(100% - 80px);
-      height: auto;
-      margin: 20px 40px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+        .placeholder-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
 
-    .content hr {
-      border: none;
-      border-top: 1px solid #e9ecef;
-      margin: 40px;
-    }
+        .status {
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
 
-    /* Special styling for badges/status */
-    .badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background: #007bff;
-      color: white;
-      border-radius: 16px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin: 0 5px;
-    }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-    .badge.accepted {
-      background: #28a745;
-    }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-    .badge.in-progress {
-      background: #ffc107;
-      color: #333;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    /* Responsive design */
-    @media (max-width: 768px) {
-      .main-title {
-        font-size: 2.5rem;
-      }
-      
-      .subtitle {
-        font-size: 1.2rem;
-      }
-      
-      .description {
-        font-size: 1rem;
-      }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-      .content h1 {
-        font-size: 2rem;
-        padding: 0 20px;
-      }
-
-      .content h2 {
-        font-size: 1.5rem;
-        padding: 0 20px;
-      }
-
-      .content h3 {
-        font-size: 1.3rem;
-        padding: 0 20px;
-      }
-
-      .content h4 {
-        font-size: 1.1rem;
-        padding: 0 20px;
-      }
-
-      .content p,
-      .content blockquote {
-        padding: 0 20px;
-      }
-
-      .content ul,
-      .content ol {
-        padding-left: 40px;
-        padding-right: 20px;
-      }
-
-      .content pre,
-      .content table,
-      .content img {
-        margin: 20px 20px;
-        width: calc(100% - 40px);
-      }
-
-      .content hr {
-        margin: 30px 20px;
-      }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .controls {
+                padding: 20px;
+            }
+            
+            .url-input {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .file-input-container {
+                display: block;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1 class="main-title">CAAE</h1>
-      <p class="subtitle">Context-Aware Academic Emotions</p>
-      <p class="description">Advanced facial expression recognition with domain knowledge integration</p>
+    <div class="container">
+        <div class="header">
+            <h1>📊 数据集展示平台</h1>
+            <p>轻松加载和展示你的数据集文档</p>
+        </div>
+
+        <div class="content" id="content">
+            <div class="placeholder">
+                <div class="placeholder-icon">📄</div>
+                <h2>正在加载数据集文档...</h2>
+                <p>正在从 README.md 加载内容</p>
+            </div>
+        </div>
     </div>
 
-    <div class="content" id="content">
-      <div class="loading">
-        <div class="loading-spinner"></div>
-        <p>Loading content...</p>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-  <script>
-    function loadContent() {
-      const defaultContent = `# DK-CLIP: Domain Knowledge Enhanced CLIP for Dynamic Facial Expression Recognition
-
-**Status:** <span class="badge accepted">Accepted to [Conference/Journal Name]</span>
-
-📄 **Paper Link:** [arXiv or conference](https://example.com)
-
-## Overview
-
-DK-CLIP introduces a CLIP-based framework that integrates domain knowledge from dynamic facial expression recognition (DFER), including temporal correlations and facial action units (AUs). It addresses two major challenges in DFER:
-
-### Key Challenges Addressed
-
-• **Noise interference** from irrelevant or low-intensity frames
-• **Limited annotated training data** for robust model training
-
-### Key Components
-
-**🎥 Hierarchical video encoder** with short- and long-term temporal modeling
-- Advanced temporal dependencies capture
-- Multi-scale feature extraction
-- Efficient video processing pipeline
-
-**🔧 AU-enhanced semantic text prompts** 
-- Facial action units integration
-- Improved semantic understanding
-- Context-aware prompt generation
-
-**⚖️ Class-aware consistency regularization** for robust learning
-- Balanced training across emotion classes
-- Stability improvements
-- Reduced overfitting
-
-## Datasets
-
-We evaluate DK-CLIP on the following in-the-wild DFER datasets:
-
-| Dataset | Images | Classes | Description |
-|---------|---------|---------|-------------|
-| DFEW | 16,372 | 7 | Diverse facial expressions in wild |
-| FERV39k | 38,935 | 7 | Large-scale video emotion dataset |
-| MAFW | 10,045 | 11 | Multi-modal emotion recognition |
-
-## Results
-
-Our approach achieves state-of-the-art performance across multiple benchmarks:
-
-- **DFEW**: 73.84% accuracy (+2.1% improvement)
-- **FERV39k**: 45.12% accuracy (+1.8% improvement)  
-- **MAFW**: 58.96% accuracy (+3.2% improvement)
-
-## Usage
-
-\`\`\`python
-# Example usage
-from dk_clip import DKCLIPModel
-
-model = DKCLIPModel.from_pretrained('dk-clip-base')
-predictions = model.predict(video_path)
-\`\`\`
-
-## Citation
-
-If you find this work useful, please cite:
-
-\`\`\`bibtex
-@article{dkclip2024,
-  title={DK-CLIP: Domain Knowledge Enhanced CLIP for Dynamic Facial Expression Recognition},
-  author={Author Name},
-  journal={Conference/Journal Name},
-  year={2024}
-}
-\`\`\``;
-
-      // Try to fetch README.md first
-      fetch('README.md')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('README.md not found');
-          }
-          return response.text();
-        })
-        .then(markdownText => {
-          renderMarkdown(markdownText);
-        })
-        .catch(error => {
-          console.log('Using default content:', error.message);
-          renderMarkdown(defaultContent);
-        });
-    }
-
-    function renderMarkdown(markdownText) {
-      try {
-        // Configure marked options
-        marked.setOptions({
-          gfm: true,
-          breaks: true,
-          sanitize: false
+    <script>
+        // 页面加载时自动加载README.md
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReadme();
         });
 
-        const htmlContent = marked.parse(markdownText);
-        document.getElementById('content').innerHTML = htmlContent;
-        
-        // Add some enhancements
-        enhanceContent();
-      } catch (error) {
-        document.getElementById('content').innerHTML = `
-          <div class="error">
-            <h3>⚠️ Content Loading Error</h3>
-            <p>Failed to render markdown content: ${error.message}</p>
-            <p>Please check if the README.md file exists and is properly formatted.</p>
-          </div>
-        `;
-      }
-    }
+        // 加载README.md文件
+        async function loadReadme() {
+            try {
+                const response = await fetch('./README.md');
+                
+                if (!response.ok) {
+                    throw new Error(`无法加载 README.md: ${response.status}`);
+                }
+                
+                const markdown = await response.text();
+                renderMarkdown(markdown);
+            } catch (error) {
+                document.getElementById('content').innerHTML = `
+                    <div class="placeholder">
+                        <div class="placeholder-icon">❌</div>
+                        <h2>加载失败</h2>
+                        <p>无法加载 README.md 文件</p>
+                        <p style="color: #666; font-size: 14px;">错误信息: ${error.message}</p>
+                        <p style="color: #666; font-size: 14px;">请确保 README.md 文件在同一目录下</p>
+                    </div>
+                `;
+            }
+        }
 
-    function enhanceContent() {
-      // Add smooth scrolling for anchor links
-      const anchorLinks = document.querySelectorAll('a[href^="#"]');
-      anchorLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = document.querySelector(link.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-
-      // Add copy functionality to code blocks
-      const codeBlocks = document.querySelectorAll('pre code');
-      codeBlocks.forEach(block => {
-        const pre = block.parentElement;
-        const button = document.createElement('button');
-        button.textContent = 'Copy';
-        button.style.cssText = `
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          background: #007bff;
-          color: white;
-          border: none;
-          padding: 5px 10px;
-          border-radius: 4px;
-          font-size: 12px;
-          cursor: pointer;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        `;
-        
-        pre.style.position = 'relative';
-        pre.appendChild(button);
-        
-        pre.addEventListener('mouseenter', () => {
-          button.style.opacity = '1';
-        });
-        
-        pre.addEventListener('mouseleave', () => {
-          button.style.opacity = '0';
-        });
-        
-        button.addEventListener('click', () => {
-          navigator.clipboard.writeText(block.textContent);
-          button.textContent = 'Copied!';
-          setTimeout(() => {
-            button.textContent = 'Copy';
-          }, 2000);
-        });
-      });
-    }
-
-    // Initialize when page loads
-    document.addEventListener('DOMContentLoaded', loadContent);
-  </script>
+        // 渲染Markdown
+        function renderMarkdown(markdown) {
+            const html = marked.parse(markdown);
+            document.getElementById('content').innerHTML = html;
+            
+            // 添加动画效果
+            const content = document.getElementById('content');
+            content.style.animation = 'none';
+            content.offsetHeight; // 触发重排
+            content.style.animation = 'fadeIn 0.6s ease-out';
+        }
+    </script>
 </body>
 </html>
