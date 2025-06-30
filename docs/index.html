@@ -3,45 +3,428 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CAAE Project Home</title>
+  <title>CAAE: Context-Aware Academic Emotions</title>
   <style>
-    body {
-      max-width: 900px;
-      margin: 40px auto;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      padding: 0 20px;
-      color: #333;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    #content {
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #2d3748;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.15) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      padding: 60px 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .main-title {
+      font-size: 4.5rem;
+      font-weight: 900;
+      margin-bottom: 25px;
+      color: white;
+      text-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      letter-spacing: 0.1em;
+      text-align: center;
+      position: relative;
+    }
+
+    .main-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+      text-align: center;
+      margin-top: 15px;
+      letter-spacing: 0.05em;
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #1a202c;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .section-icon {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .paper-info {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+    }
+
+    .paper-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .paper-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .status-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .paper-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: background 0.3s ease;
+      font-weight: 500;
+    }
+
+    .paper-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .overview-text {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      color: #4a5568;
+      line-height: 1.8;
+    }
+
+    .challenges {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
       padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      background: #f9f9f9;
+      border-radius: 12px;
+      margin: 25px 0;
+    }
+
+    .challenges h4 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1a202c;
+    }
+
+    .challenge-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .challenge-list li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      color: #2d3748;
+      font-weight: 500;
+    }
+
+    .challenge-list li::before {
+      content: "⚡";
+      position: absolute;
+      left: 0;
+      color: #e53e3e;
+    }
+
+    .key-components {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    .component-card {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      padding: 20px;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .component-card:hover {
+      transform: scale(1.02);
+    }
+
+    .component-card h4 {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #1a202c;
+    }
+
+    .component-card p {
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+
+    .datasets-section {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      padding: 25px;
+      border-radius: 15px;
+      margin-top: 20px;
+    }
+
+    .datasets-section h4 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1a202c;
+    }
+
+    .datasets-section p {
+      color: #4a5568;
+      font-size: 1.05rem;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-message {
+      background: #fed7d7;
+      color: #c53030;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #e53e3e;
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 3rem;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .content-card {
+        padding: 25px;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .header {
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>CAAE: Context-Aware Academic Emotions</h1>
-  <div id="content">Loading markdown...</div>
+  <div class="container">
+    <div class="header">
+      <h1 class="main-title">CAAE</h1>
+      <p class="subtitle">Context-Aware Academic Emotions</p>
+    </div>
 
-  <!-- 引入 marked.js 库 -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <div class="content-card" id="content">
+      <div style="text-align: center; padding: 40px;">
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 15px; color: #718096;">Loading content...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
   <script>
-    // 加载并渲染 markdown 文件
-    fetch('README.md')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Cannot load markdown file");
-        }
-        return response.text();
-      })
-      .then(mdText => {
-        document.getElementById('content').innerHTML = marked.parse(mdText);
-      })
-      .catch(err => {
-        document.getElementById('content').innerText = "Failed to load markdown: " + err;
+    function createBeautifulMarkdownRenderer() {
+      const defaultContent = `
+# DK-CLIP: Domain Knowledge Enhanced CLIP for Dynamic Facial Expression Recognition
+
+<div class="paper-info">
+  <div class="paper-title">DK-CLIP: Domain Knowledge Enhanced CLIP for Dynamic Facial Expression Recognition</div>
+  <div class="paper-status">
+    <span class="status-badge">📍 Accepted to [Conference/Journal Name]</span>
+  </div>
+  <a href="#" class="paper-link">📄 Paper Link (arXiv or conference)</a>
+</div>
+
+## 🔍 Overview
+
+DK-CLIP introduces a CLIP-based framework that integrates domain knowledge from dynamic facial expression recognition (DFER), including temporal correlations and facial action units (AUs). It addresses two major challenges in DFER:
+
+<div class="challenges">
+  <h4>Key Challenges Addressed:</h4>
+  <ul class="challenge-list">
+    <li>Noise interference from irrelevant or low-intensity frames</li>
+    <li>Limited annotated training data</li>
+  </ul>
+</div>
+
+<div class="key-components">
+  <div class="component-card">
+    <h4>🎥 Hierarchical Video Encoder</h4>
+    <p>Advanced temporal modeling with both short-term and long-term dependencies</p>
+  </div>
+  <div class="component-card">
+    <h4>🔧 AU-Enhanced Semantics</h4>
+    <p>Leveraging facial action units for improved text prompts and understanding</p>
+  </div>
+  <div class="component-card">
+    <h4>⚖️ Class-Aware Consistency</h4>
+    <p>Regularization techniques for robust and stable learning across emotion classes</p>
+  </div>
+</div>
+
+## 📊 Datasets
+
+<div class="datasets-section">
+  <h4>Evaluation Datasets</h4>
+  <p>We evaluate DK-CLIP on the following in-the-wild DFER datasets for comprehensive performance analysis.</p>
+</div>
+      `;
+
+      // Try to fetch README.md, fallback to default content
+      fetch('README.md')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('README.md not found');
+          }
+          return response.text();
+        })
+        .then(mdText => {
+          renderContent(mdText);
+        })
+        .catch(err => {
+          console.log('Using default content:', err.message);
+          renderContent(defaultContent);
+        });
+    }
+
+    function renderContent(markdownText) {
+      try {
+        const htmlContent = marked.parse(markdownText);
+        document.getElementById('content').innerHTML = htmlContent;
+        
+        // Add some interactive enhancements
+        addInteractiveEnhancements();
+      } catch (error) {
+        document.getElementById('content').innerHTML = `
+          <div class="error-message">
+            <h3>⚠️ Content Loading Error</h3>
+            <p>Failed to render markdown content: ${error.message}</p>
+            <p>Please check if the README.md file exists and is properly formatted.</p>
+          </div>
+        `;
+      }
+    }
+
+    function addInteractiveEnhancements() {
+      // Add hover effects to links
+      const links = document.querySelectorAll('a');
+      links.forEach(link => {
+        link.style.transition = 'all 0.3s ease';
+        link.addEventListener('mouseenter', () => {
+          link.style.transform = 'translateY(-2px)';
+        });
+        link.addEventListener('mouseleave', () => {
+          link.style.transform = 'translateY(0)';
+        });
       });
+
+      // Add smooth scrolling for anchor links
+      const anchorLinks = document.querySelectorAll('a[href^="#"]');
+      anchorLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.querySelector(link.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', createBeautifulMarkdownRenderer);
   </script>
 </body>
 </html>
