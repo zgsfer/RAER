@@ -26,7 +26,7 @@
         .cover-image-area img { width: 100%; height: 100%; object-fit: contain; } /* 改为width和height 100%，让图片尽可能大 */
 
         /* 3. 主要内容部分 */
-        .main-content { background-color: #f9f9f9; padding: 60px 20px; }
+        .main-content { background-color: #f9f9f9; padding: 5px 20px; }
         .content-wrapper { width: 85%; margin: 0 auto; }
         h2 { padding-bottom: 0px; font-size: 2.1em; } /* 从1.6em增加到2.2em */
         .content-wrapper > p { font-size: 1.4em; line-height: 1.6; } /* 从1.1em增加到1.4em */
@@ -66,14 +66,14 @@
         @media (max-width: 900px) {
             .emotion-grid-container { justify-content: flex-start; }
         }
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             /* 移动端首页不再占满屏幕 */
             .cover-page {
                 height: 50vh; /* 移动端只占一半屏幕高度 */
                 min-height: 350px; /* 设置最小高度确保内容可见 */
                 max-height: 450px; /* 设置最大高度防止过高 */
             }
-            
+            .content-wrapper { width: 100%; margin: 0 auto; }
             /* 移动端图片区域调整 */
             .cover-image-area {
                 flex-grow: 1;
