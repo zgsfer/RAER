@@ -12,36 +12,34 @@
         body { 
             margin: 0; 
             font-family: "Times New Roman", Times, serif; 
-            font-size: 14px; 
+            font-size: 18px; /* 从14px增加到18px */
             background-color: #f9f9f9;
         }
-        /* .h1 {font-size: xx-large;} */
+        
         /* 2. 全屏封面部分 */
         .cover-page { height: 100vh; display: flex; flex-direction: column; background-color: #ffffff; }
-        .cover-text-area { text-align: center; padding: 3vh 20px 0.1vh; flex-shrink: 0; }
-        .cover-title { font-size: 2.4em; color: #222; margin: 0 0 20px 0; }
-        .cover-link { font-size: 1.6em; font-weight: bold; color: #6a0dad; text-decoration: underline; transition: transform 0.2s ease; cursor: pointer; }
+        .cover-text-area { text-align: center; padding: 2vh 20px 0.5vh; flex-shrink: 0; } /* 减小上下padding */
+        .cover-title { font-size: 3.2em; color: #222; margin: 0 0 15px 0; } /* 减小下边距从20px到15px */
+        .cover-link { font-size: 2.2em; font-weight: bold; color: #6a0dad; text-decoration: underline; transition: transform 0.2s ease; cursor: pointer; margin-bottom: 10px; } /* 添加下边距 */
         .cover-link:hover { transform: scale(1.1); }
-        .cover-image-area { flex-grow: 1; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: #ffffff; }
-        .cover-image-area img { max-width: 99%; max-height: 99%; object-fit: contain; }
+        .cover-image-area { flex-grow: 1; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: #ffffff; padding: 10px; } /* 添加小的padding避免图片贴边 */
+        .cover-image-area img { width: 100%; height: 100%; object-fit: contain; } /* 改为width和height 100%，让图片尽可能大 */
 
         /* 3. 主要内容部分 */
         .main-content { background-color: #f9f9f9; padding: 60px 20px; }
         .content-wrapper { width: 95%; max-width: 1400px; margin: 0 auto; }
-        h2 { padding-bottom: 10px; font-size: 1.6em; }
-        .content-wrapper > p { font-size: 1.1em; line-height: 1.6; }
-        .content-wrapper > ul { padding-left: 20px; line-height: 1.5; color: #333; font-size: 1.1em; }
-        .content-wrapper li { margin-bottom: 8px; }
+        h2 { padding-bottom: 10px; font-size: 2.2em; } /* 从1.6em增加到2.2em */
+        .content-wrapper > p { font-size: 1.4em; line-height: 1.6; } /* 从1.1em增加到1.4em */
+        .content-wrapper > ul { padding-left: 20px; line-height: 1.5; color: #333; font-size: 1.4em; } /* 从1.1em增加到1.4em */
+        .content-wrapper li { margin-bottom: 10px; } /* 从8px增加到10px */
         
-        /* === Sample Images 网格布局 (已修改) === */
+        /* === Sample Images 网格布局 === */
         .samples-section { margin: 40px 0; }
         .grid-wrapper { overflow-x: auto; }
         .emotion-grid-container {
             display: grid;
-            /* 修改：减小列宽，使其更紧凑 */
-            grid-template-columns: repeat(5, 140px); 
-            /* 修改：减小间距 */
-            gap: 15px;
+            grid-template-columns: repeat(5, 180px); /* 从140px增加到180px */
+            gap: 20px; /* 从15px增加到20px */
             min-width: 0;
             background-color: transparent;
             justify-content: center;
@@ -50,7 +48,7 @@
         .emotion-header {
             font-weight: bold; text-align: center; padding: 12px; color: #34495e;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1em; text-transform: capitalize; background: transparent;
+            font-size: 1.4em; text-transform: capitalize; background: transparent; /* 从1.1em增加到1.4em */
         }
         .grid-cell {
             background: white; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.07);
@@ -60,8 +58,8 @@
         .grid-cell img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
         
         .basic-gray-box {
-            background-color: #f5f5f5; border: 1px solid #ddd; padding: 15px; margin: 15px 0;
-            font-family: 'Courier New', monospace; font-size: 12px;
+            background-color: #f5f5f5; border: 1px solid #ddd; padding: 20px; margin: 15px 0; /* padding从15px增加到20px */
+            font-family: 'Courier New', monospace; font-size: 16px; /* 从12px增加到16px */
             line-height: 1.4; border-radius: 4px; white-space: pre-wrap;
         }
         
@@ -70,75 +68,81 @@
         }
         @media (max-width: 768px) {
             .emotion-grid-container { 
-                /* 修改：相应地减小移动设备上的尺寸和间距 */
-                grid-template-columns: repeat(5, 120px); 
-                gap: 10px; 
+                grid-template-columns: repeat(5, 150px); /* 从120px增加到150px */
+                gap: 15px; /* 从10px增加到15px */
             }
-            .emotion-header { font-size: 1em; }
+            .emotion-header { font-size: 1.2em; } /* 从1em增加到1.2em */
+            .cover-title { font-size: 2.8em; } /* 移动端标题适当缩小 */
+            .cover-link { font-size: 2em; } /* 移动端链接适当缩小 */
+            h2 { font-size: 2em; } /* 移动端h2适当缩小 */
+            .cover-text-area { padding: 1.5vh 20px 0.3vh; } /* 移动端进一步减小文字区域 */
+            .cover-title { margin: 0 0 10px 0; } /* 移动端进一步减小标题下边距 */
         }
 
-        /* ========================================================= */
-        /* === 4. 条款和条件设计 (不使用包裹DIV的实现) === */
-        /* ========================================================= */
-        /* 为条款标题添加一些下边距 */
+        /* === 条款和条件设计 === */
         #terms-title {
             margin-top: 40px;
         }
-        /* 定位紧跟在标题后的介绍段落 */
         #terms-title + p {
-             font-size: 1.1em;
+             font-size: 1.4em; /* 从1.1em增加到1.4em */
              line-height: 1.6;
         }
-        /* 定位标题后面的ol列表，并启用CSS计数器 */
         #terms-title ~ ol {
-            list-style-type: none; /* 禁用默认的数字 */
-            counter-reset: terms-counter; /* 初始化计数器 */
+            list-style-type: none;
+            counter-reset: terms-counter;
             padding-left: 0;
             margin-top: 20px;
         }
-        /* 定位列表中的每个li，并设置为卡片样式 */
         #terms-title ~ ol li {
             background: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            padding: 25px 30px 25px 80px; /* 为左侧的自定义序号留出空间 */
-            margin-bottom: 25px;
-            position: relative; /* 为自定义序号的绝对定位提供基准 */
-            counter-increment: terms-counter; /* 计数器+1 */
+            padding: 30px 35px 30px 90px; /* 增加padding */
+            margin-bottom: 30px; /* 从25px增加到30px */
+            position: relative;
+            counter-increment: terms-counter;
             transition: all 0.3s ease;
         }
         #terms-title ~ ol li:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
-        /* 创建自定义的序号 */
         #terms-title ~ ol li::before {
-            content: counter(terms-counter); /* 显示计数器值 */
+            content: counter(terms-counter);
             position: absolute;
-            left: 25px;
-            top: 25px;
-            font-size: 2.2em;
+            left: 30px; /* 从25px增加到30px */
+            top: 30px; /* 从25px增加到30px */
+            font-size: 2.8em; /* 从2.2em增加到2.8em */
             font-weight: bold;
             color: #6a0dad;
             line-height: 1;
         }
-        /* 卡片内部标题H3的样式 */
         #terms-title ~ ol h3 {
-            font-size: 1.3em;
+            font-size: 1.6em; /* 从1.3em增加到1.6em */
             color: #2c3e50;
-            margin: 0 0 10px 0;
+            margin: 0 0 12px 0; /* 从10px增加到12px */
             padding: 0;
         }
-        /* 卡片内部段落P和列表UL的样式 */
         #terms-title ~ ol p, #terms-title ~ ol ul {
-            font-size: 1.1em;
+            font-size: 1.4em; /* 从1.1em增加到1.4em */
             line-height: 1.7;
             color: #495057;
             margin: 0;
         }
         #terms-title ~ ol ul {
             padding-left: 20px;
-            margin-top: 10px;
+            margin-top: 12px; /* 从10px增加到12px */
+        }
+
+        /* 调整h3标题大小 */
+        h3 {
+            font-size: 1.8em; /* 新增，约为18px * 1.8 = 32.4px */
+            margin: 20px 0 15px 0;
+        }
+
+        /* 调整邮箱链接 */
+        a {
+            font-size: inherit; /* 继承父元素的字体大小 */
         }
 
     </style>
@@ -201,41 +205,38 @@
                 </div>
             </div>
 
-            <!-- ******** 条款部分 HTML (只在h2上添加id) ******** -->
-             <!-- 条款部分 -->
-        <h2>Terms and Conditions of Use</h2>
-        <p>By downloading or using the RAER dataset, you agree to comply with the following terms and conditions:</p>
-        <h3>1. Non-Commercial Use Only</h3>
-        <p>The RAER dataset is provided strictly for <strong>non-commercial research purposes</strong>. Any commercial use, including but not limited to commercial product development, service deployment, or monetization, is <strong>strictly prohibited</strong>.</p>
-        
-        <h3>2. Ownership and Responsibility</h3>
-        <p>All videos and images in the RAER dataset were collected from <strong>consenting volunteer participants</strong>. These materials <strong>do not belong to</strong> the Zhejiang Gongshang University. The University assumes <strong>no legal responsibility</strong> for the content, interpretation, or usage of the images or videos in the dataset.</p>
-        
-        <h3>3. Restrictions on Use</h3>
-        <p>You agree <strong>not to</strong>:</p>
-        <ul>
-            <li>Reproduce, duplicate, or copy the dataset for purposes other than internal research.</li>
-            <li>Sell, trade, resell, or exploit any part of the RAER dataset or its derivatives for commercial purposes.</li>
-            <li>Publish, distribute, or share the dataset or any substantial portion of it with third parties outside your organization.</li>
-        </ul>
-        
-        <h3>4. Internal Use Within an Organization</h3>
-        <p>Copies of the dataset may be made <strong>solely for internal use</strong> within <strong>a single site of the same organization</strong>. Redistribution outside of the organization or across multiple sites is not allowed.
-        </p>
+            <!-- 条款部分 -->
+            <h2>Terms and Conditions of Use</h2>
+            <p>By downloading or using the RAER dataset, you agree to comply with the following terms and conditions:</p>
+            <h3>1. Non-Commercial Use Only</h3>
+            <p>The RAER dataset is provided strictly for <strong>non-commercial research purposes</strong>. Any commercial use, including but not limited to commercial product development, service deployment, or monetization, is <strong>strictly prohibited</strong>.</p>
+            
+            <h3>2. Ownership and Responsibility</h3>
+            <p>All videos and images in the RAER dataset were collected from <strong>consenting volunteer participants</strong>. These materials <strong>do not belong to</strong> the Zhejiang Gongshang University. The University assumes <strong>no legal responsibility</strong> for the content, interpretation, or usage of the images or videos in the dataset.</p>
+            
+            <h3>3. Restrictions on Use</h3>
+            <p>You agree <strong>not to</strong>:</p>
+            <ul>
+                <li>Reproduce, duplicate, or copy the dataset for purposes other than internal research.</li>
+                <li>Sell, trade, resell, or exploit any part of the RAER dataset or its derivatives for commercial purposes.</li>
+                <li>Publish, distribute, or share the dataset or any substantial portion of it with third parties outside your organization.</li>
+            </ul>
+            
+            <h3>4. Internal Use Within an Organization</h3>
+            <p>Copies of the dataset may be made <strong>solely for internal use</strong> within <strong>a single site of the same organization</strong>. Redistribution outside of the organization or across multiple sites is not allowed.</p>
 
-        <h3>5. Publication Requirements</h3>
-        <p>If you use the RAER dataset in your research and publish any results, you must:</p>
-        <ul>
-            <li>Acknowledge the use of the RAER dataset in your publication.</li>
-            <li>Cite the associated RAER dataset paper as specified on the dataset’s official release page.</li>
-        </ul>
+            <h3>5. Publication Requirements</h3>
+            <p>If you use the RAER dataset in your research and publish any results, you must:</p>
+            <ul>
+                <li>Acknowledge the use of the RAER dataset in your publication.</li>
+                <li>Cite the associated RAER dataset paper as specified on the dataset's official release page.</li>
+            </ul>
 
-        <h3>6. Termination of Access</h3>
-        <p>The authors reserve the right to <strong>terminate your access</strong> to the RAER dataset at any time, for any reason, including but not limited to suspected misuse or violation of these terms.</p>
-        
-        <h3>7. Modification and Updates</h3>
-        <p>These terms and conditions are subject to change without prior notice. It is your responsibility to stay updated with the latest terms by referring to the official dataset release page.</p>            
-        <!-- ******** 条款部分 HTML 结束 ******** -->
+            <h3>6. Termination of Access</h3>
+            <p>The authors reserve the right to <strong>terminate your access</strong> to the RAER dataset at any time, for any reason, including but not limited to suspected misuse or violation of these terms.</p>
+            
+            <h3>7. Modification and Updates</h3>
+            <p>These terms and conditions are subject to change without prior notice. It is your responsibility to stay updated with the latest terms by referring to the official dataset release page.</p>            
             
             <br>
 
