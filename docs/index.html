@@ -4,135 +4,143 @@
     <meta charset="UTF-8">
     <title>Context-Aware Academic Emotion Dataset</title>
     
-    <!-- ****** 这里是新增的 ICO 图标链接 ****** -->
-    <!-- 请确保在 static 文件夹下有一个名为 favicon.ico 的文件 -->
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
     
     <style>
         /* 1. 基础和全局设置 */
         html { scroll-behavior: smooth; }
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; }
-
+        body { 
+            margin: 0; 
+            font-family: "Times New Roman", Times, serif; 
+            font-size: 14px; 
+            background-color: #f9f9f9;
+        }
+        /* .h1 {font-size: xx-large;} */
         /* 2. 全屏封面部分 */
         .cover-page { height: 100vh; display: flex; flex-direction: column; background-color: #ffffff; }
-        .cover-text-area { text-align: center; padding: 5vh 20px 3vh; flex-shrink: 0; }
+        .cover-text-area { text-align: center; padding: 3vh 20px 0.6vh; flex-shrink: 0; }
         .cover-title { font-size: 2.2em; color: #222; margin: 0 0 20px 0; }
-        .cover-link { font-size: 1.3em; font-weight: bold; color: #6a0dad; text-decoration: underline; transition: transform 0.2s ease; cursor: pointer; /* 保持手型光标 */ }
+        .cover-link { font-size: 1.6em; font-weight: bold; color: #6a0dad; text-decoration: underline; transition: transform 0.2s ease; cursor: pointer; }
         .cover-link:hover { transform: scale(1.1); }
         .cover-image-area { flex-grow: 1; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: #ffffff; }
-        .cover-image-area img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .cover-image-area img { max-width: 98%; max-height: 98%; object-fit: contain; }
 
         /* 3. 主要内容部分 */
         .main-content { background-color: #f9f9f9; padding: 60px 20px; }
-        .content-wrapper { width: 90%; max-width: 1200px; margin: 0 auto; }
-        h1, h2 { padding-bottom: 10px; font-size: 1.6em; }
+        .content-wrapper { width: 95%; max-width: 1400px; margin: 0 auto; }
+        h2 { padding-bottom: 10px; font-size: 1.6em; }
+        .content-wrapper > p { font-size: 1.1em; line-height: 1.6; }
+        .content-wrapper > ul { padding-left: 20px; line-height: 1.5; color: #333; font-size: 1.1em; }
+        .content-wrapper li { margin-bottom: 8px; }
         
-        .content-wrapper p { font-size: 0.9em; line-height: 1.6; }
-        
-        .content-wrapper ul {
-            padding-left: 20px;
-            line-height: 1.5;
-            color: #333;
-            font-size: 0.9em;
-        }
-
-        .content-wrapper li {
-            margin-bottom: 8px;
-        }
-
-        /* === 开放式浮动卡片网格布局 (尺寸优化后) === */
-        .samples-section {
-            margin: 40px 0;
-        }
-
-        .samples-title {
-            font-size: 1.8em;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 300;
-        }
-
-        .grid-wrapper {
-            overflow-x: auto;
-        }
-
+        /* === Sample Images 网格布局 (已修改) === */
+        .samples-section { margin: 40px 0; }
+        .grid-wrapper { overflow-x: auto; }
         .emotion-grid-container {
             display: grid;
-            grid-template-columns: 120px repeat(5, 100px); 
-            gap: 12px;
+            /* 修改：减小列宽，使其更紧凑 */
+            grid-template-columns: repeat(5, 140px); 
+            /* 修改：减小间距 */
+            gap: 15px;
             min-width: 0;
             background-color: transparent;
             justify-content: center;
-            padding: 0 10px;
+            padding: 10px;
         }
-        
-        .emotion-header, .scene-label {
-            font-weight: 500;
-            text-align: center;
-            padding: 16px 12px;
-            color: #495057;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85em;
-            text-transform: capitalize;
-            background: transparent;
+        .emotion-header {
+            font-weight: bold; text-align: center; padding: 12px; color: #34495e;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1em; text-transform: capitalize; background: transparent;
         }
-        
-        .scene-label {
-            justify-content: flex-end;
-            padding-right: 15px;
-            font-size: 0.95em;
-            color: #34495e;
-        }
-
         .grid-cell {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-            transition: all 0.3s ease;
-            overflow: hidden;
-            aspect-ratio: 1 / 1;
-            padding: 0;
+            background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            transition: all 0.3s ease; overflow: hidden; aspect-ratio: 1 / 1; padding: 0;
+        }
+        .grid-cell:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .grid-cell img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+        
+        .basic-gray-box {
+            background-color: #f5f5f5; border: 1px solid #ddd; padding: 15px; margin: 15px 0;
+            font-family: 'Courier New', monospace; font-size: 12px;
+            line-height: 1.4; border-radius: 4px; white-space: pre-wrap;
+        }
+        
+        @media (max-width: 900px) {
+            .emotion-grid-container { justify-content: flex-start; }
+        }
+        @media (max-width: 768px) {
+            .emotion-grid-container { 
+                /* 修改：相应地减小移动设备上的尺寸和间距 */
+                grid-template-columns: repeat(5, 120px); 
+                gap: 10px; 
+            }
+            .emotion-header { font-size: 1em; }
         }
 
-        .grid-cell:hover {
-            transform: translateY(-5px) scale(1.03);
+        /* ========================================================= */
+        /* === 4. 条款和条件设计 (不使用包裹DIV的实现) === */
+        /* ========================================================= */
+        /* 为条款标题添加一些下边距 */
+        #terms-title {
+            margin-top: 40px;
+        }
+        /* 定位紧跟在标题后的介绍段落 */
+        #terms-title + p {
+             font-size: 1.1em;
+             line-height: 1.6;
+        }
+        /* 定位标题后面的ol列表，并启用CSS计数器 */
+        #terms-title ~ ol {
+            list-style-type: none; /* 禁用默认的数字 */
+            counter-reset: terms-counter; /* 初始化计数器 */
+            padding-left: 0;
+            margin-top: 20px;
+        }
+        /* 定位列表中的每个li，并设置为卡片样式 */
+        #terms-title ~ ol li {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            padding: 25px 30px 25px 80px; /* 为左侧的自定义序号留出空间 */
+            margin-bottom: 25px;
+            position: relative; /* 为自定义序号的绝对定位提供基准 */
+            counter-increment: terms-counter; /* 计数器+1 */
+            transition: all 0.3s ease;
+        }
+        #terms-title ~ ol li:hover {
+            transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
-
-        .grid-cell img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 0;
+        /* 创建自定义的序号 */
+        #terms-title ~ ol li::before {
+            content: counter(terms-counter); /* 显示计数器值 */
+            position: absolute;
+            left: 25px;
+            top: 25px;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #6a0dad;
+            line-height: 1;
+        }
+        /* 卡片内部标题H3的样式 */
+        #terms-title ~ ol h3 {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+            padding: 0;
+        }
+        /* 卡片内部段落P和列表UL的样式 */
+        #terms-title ~ ol p, #terms-title ~ ol ul {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #495057;
+            margin: 0;
+        }
+        #terms-title ~ ol ul {
+            padding-left: 20px;
+            margin-top: 10px;
         }
 
-        @media (max-width: 768px) {
-            .emotion-grid-container {
-                grid-template-columns: 80px repeat(5, 80px);
-                gap: 8px;
-                justify-content: flex-start;
-            }
-            .scene-label { 
-                font-size: 0.8em; 
-                padding-right: 5px;
-                justify-content: center;
-            }
-            .emotion-header { font-size: 0.7em; }
-        }
-        .basic-gray-box {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            line-height: 1.4;
-            border-radius: 4px;
-            white-space: pre-wrap;  /* 关键：保留换行和空格 */
-        }
     </style>
 </head>
 <body>
@@ -162,72 +170,81 @@
             
             <div class="samples-section">
                 <h2>Sample Images</h2>
-                
                 <div class="grid-wrapper">
                     <div class="emotion-grid-container">
-                        
-                        <!-- 标题行 -->
-                        <div></div>
                         <div class="emotion-header">Neutrality</div>
                         <div class="emotion-header">Enjoyment</div>
                         <div class="emotion-header">Confusion</div>
                         <div class="emotion-header">Fatigue</div>
                         <div class="emotion-header">Distraction</div>
-
-                        <!-- 教室场景 -->
-                        <div class="scene-label">Classrooms</div>
-                        <div class="grid-cell"><img src="static\cla1.png" alt="Neutrality"></div>
-                        <div class="grid-cell"><img src="static\cla2.png" alt="Enjoyment"></div>
-                        <div class="grid-cell"><img src="static\cla3.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\cla4.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\cla5.png" alt="Distraction"></div>
-
-                        <!-- 图书馆场景 -->
-                        <div class="scene-label">Libraries</div>
-                        <div class="grid-cell"><img src="static\lib1.png" alt="Neutrality"></div>
-                        <div class="grid-cell"><img src="static\lib2.png" alt="Enjoyment"></div>
-                        <div class="grid-cell"><img src="static\lib3.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\lib4.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\lib5.png" alt="Distraction"></div>
-
-                        <!-- 实验室场景 -->
-                        <div class="scene-label">Laboratories</div>
-                        <div class="grid-cell"><img src="static\lab2.png" alt="Neutrality"></div>
-                        <div class="grid-cell"><img src="static\lab1.png" alt="Enjoyment"></div>
-                        <div class="grid-cell"><img src="static\lab3.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\lab4.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\lab5.png" alt="Distraction"></div>
-                        
-                        <!-- 宿舍场景 -->
-                        <div class="scene-label">Dormitories</div>
-                        <div class="grid-cell"><img src="static\dor3.png" alt="Neutrality"></div>
-                        <div class="grid-cell"><img src="static\dor1.png" alt="Enjoyment"></div>
-                        <div class="grid-cell"><img src="static\dor4.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\dor5.png" alt="Confusion"></div>
-                        <div class="grid-cell"><img src="static\dor2.png" alt="Distraction"></div>
-                        
+                        <div class="grid-cell"><img src="static\cla1.png" alt="Neutrality in Classroom"></div>
+                        <div class="grid-cell"><img src="static\cla2.png" alt="Enjoyment in Classroom"></div>
+                        <div class="grid-cell"><img src="static\cla3.png" alt="Confusion in Classroom"></div>
+                        <div class="grid-cell"><img src="static\cla4.png" alt="Fatigue in Classroom"></div>
+                        <div class="grid-cell"><img src="static\cla5.png" alt="Distraction in Classroom"></div>
+                        <div class="grid-cell"><img src="static\lib1.png" alt="Neutrality in Library"></div>
+                        <div class="grid-cell"><img src="static\lib2.png" alt="Enjoyment in Library"></div>
+                        <div class="grid-cell"><img src="static\lib3.png" alt="Confusion in Library"></div>
+                        <div class="grid-cell"><img src="static\lib4.png" alt="Fatigue in Library"></div>
+                        <div class="grid-cell"><img src="static\lib5.png" alt="Distraction in Library"></div>
+                        <div class="grid-cell"><img src="static\lab2.png" alt="Neutrality in Laboratory"></div>
+                        <div class="grid-cell"><img src="static\lab1.png" alt="Enjoyment in Laboratory"></div>
+                        <div class="grid-cell"><img src="static\lab3.png" alt="Confusion in Laboratory"></div>
+                        <div class="grid-cell"><img src="static\lab4.png" alt="Fatigue in Laboratory"></div>
+                        <div class="grid-cell"><img src="static\lab5.png" alt="Distraction in Laboratory"></div>
+                        <div class="grid-cell"><img src="static\dor3.png" alt="Neutrality in Dormitory"></div>
+                        <div class="grid-cell"><img src="static\dor1.png" alt="Enjoyment in Dormitory"></div>
+                        <div class="grid-cell"><img src="static\dor4.png" alt="Confusion in Dormitory"></div>
+                        <div class="grid-cell"><img src="static\dor5.png" alt="Fatigue in Dormitory"></div>
+                        <div class="grid-cell"><img src="static\dor2.png" alt="Distraction in Dormitory"></div>
                     </div>
                 </div>
-                
-                <br>
-                <!-- 条款部分 -->
-                <h2>Terms & Conditions</h2>
-                <ul>
-                    <li>The RAER dataset is intended for non-commercial research purposes only.</li>
-                    <li>All videos and images in the RAER dataset are collected from recruited volunteers and are not the property of the School of Computer Science and Technology, Zhejiang Gongshang University. The School of Computer Science and Technology, Zhejiang Gongshang University, assumes no responsibility for the content or meaning of these images.</li>
-                    <li>You agree not to reproduce, duplicate, copy, sell, trade, resell, or use any part of the images or derived data for any commercial purposes.</li>
-                    <li>You agree not to further copy, publish, or distribute any part of the RAER dataset. However, making copies of the dataset for internal use within a single site of the same organization is permitted.</li>
-                    <li>The School of Computer Science and Technology, Zhejiang Gongshang University, reserves the right to terminate your access to the RAER dataset at any time.</li>
-                </ul>
-                <br>
+            </div>
 
-                <!-- 获取数据集 -->
-                <h2>How to get the Dataset</h2>
-                <p>This dataset is publicly available. It is free for professors and researcher scientists affiliated to a University.<br>
-                    Permission to use but not reproduce or distribute the RAER dataset is granted to all researchers given that the following steps are properly followed:<br><br>
-                    Send an e-mail to Luming Zhao.(<a href="mailto:23020100108@pop.zjgsu.edu.cn">email</a>) before downloading the dataset. You will need a password to access the files of this dataset. Your Email MUST be set from a valid University account and MUST include the following text:
-                </p>
-                <div class="basic-gray-box">Subject: Application to download the RAER Dataset
+            <!-- ******** 条款部分 HTML (只在h2上添加id) ******** -->
+             <!-- 条款部分 -->
+        <h2>Terms and Conditions of Use</h2>
+        <p>By downloading or using the RAER dataset, you agree to comply with the following terms and conditions:</p>
+        <h3>1. Non-Commercial Use Only</h3>
+        <p>The RAER dataset is provided strictly for non-commercial research purposes. Any commercial use, including but not limited to commercial product development, service deployment, or monetization, is strictly prohibited.</p>
+        
+        <h3>2. Ownership and Responsibility</h3>
+        <p>All videos and images in the RAER dataset were collected from consenting volunteer participants. These materials do not belong to the Zhejiang Gongshang University. The University assumes no legal responsibility for the content, interpretation, or usage of the images or videos in the dataset.</p>
+        
+        <h3>3. Restrictions on Use</h3>
+        <p>You agree <strong>not to</strong>:</p>
+        <ul>
+            <li>Reproduce, duplicate, or copy the dataset for purposes other than internal research.</li>
+            <li>Sell, trade, resell, or exploit any part of the RAER dataset or its derivatives for commercial purposes.</li>
+            <li>Publish, distribute, or share the dataset or any substantial portion of it with third parties outside your organization.</li>
+        </ul>
+        
+        <h3>4. Internal Use Within an Organization</h3>
+        <p>Copies of the dataset may be made <strong>solely for internal use</strong> within <strong>a single site of the same organization</strong>. Redistribution outside of the organization or across multiple sites is not allowed.
+        </p>
+
+        <h3>5. Publication Requirements</h3>
+        <p>If you use the RAER dataset in your research and publish any results, you must:</p>
+        <ul>
+            <li>Acknowledge the use of the RAER dataset in your publication.</li>
+            <li>Cite the associated RAER dataset paper as specified on the dataset’s official release page.</li>
+        </ul>
+
+        <h3>6. Termination of Access</h3>
+        <p>The authors reserve the right to terminate your access to the RAER dataset at any time, for any reason, including but not limited to suspected misuse or violation of these terms.</p>
+        
+        <h3>7. Modification and Updates</h3>
+        <p>These terms and conditions are subject to change without prior notice. It is your responsibility to stay updated with the latest terms by referring to the official dataset release page.</p>            
+        <!-- ******** 条款部分 HTML 结束 ******** -->
+            
+            <br>
+
+            <h2>How to get the Dataset</h2>
+            <p>This dataset is publicly available. It is free for professors and researcher scientists affiliated to a University.<br>
+                Permission to use but not reproduce or distribute the RAER dataset is granted to all researchers given that the following steps are properly followed:<br><br>
+                Send an e-mail to Luming Zhao.(<a href="mailto:23020100108@pop.zjgsu.edu.cn">email</a>) before downloading the dataset. You will need a password to access the files of this dataset. Your Email MUST be set from a valid University account and MUST include the following text:
+            </p>
+            <div class="basic-gray-box">Subject: Application to download the RAER Dataset
 Name: <your first and last name>
 Affiliation: <University where you work>
 Department: <your department>
@@ -239,15 +256,12 @@ I have read and agree to the terms and conditions specified in the RAER Dataset 
 This dataset will only be used for research purposes.
 I will not make any part of this dataset available to a third party.
 I'll not sell any part of this dataset or make any profit from its use.</div>
-            </div>
             <br>
 
-            <!-- 数据集部分 -->
             <h2>Content Preview</h2>
             <p><em>To be added</em></p>
             <br>
 
-            <!-- 引用部分 -->
             <h2>Citation</h2>
             <div class="basic-gray-box">@InProceedings{Zhao_2025_ICCV,
     author    = {Zhao, Luming and Xuan, Jingwen and Lou, Jiamin and Yu, Yonghui and Yang, Wenwu},
@@ -257,9 +271,8 @@ I'll not sell any part of this dataset or make any profit from its use.</div>
 }</div>
             <br>
 
-            <!-- 联系我 -->
             <h2>Contact</h2>
-            <p>Please contact <a href="mailto:23020100108@pop.zjgsu.edu.cn">Luming Zhao</a> for questions about the dataset.</p>
+            <p>Please contact <a href="mailto:zlm_zhaoluming@163.com">Luming Zhao</a> and <a href="mailto:wwyang@zjgsu.edu.cn">Wenwu Yang</a> for questions about the dataset.</p>
         </div>
     </main>
 </body>
